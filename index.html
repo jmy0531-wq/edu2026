@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가야금: 소리의 울림, 역사의 숨결</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1599054792620-746738910408?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gayageum-string {
+            height: 4px;
+            background: linear-gradient(to bottom, #d4a373, #a98467);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.1s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .gayageum-string:active, .string-vibrate {
+            transform: translateY(2px);
+            box-shadow: 0 4px 8px rgba(212, 163, 115, 0.6);
+            filter: brightness(1.2);
+        }
+
+        .string-label {
+            position: absolute;
+            left: -40px;
+            top: -10px;
+            font-size: 0.875rem;
+            color: #6b4d36;
+            font-weight: bold;
+        }
+        .dark .string-label {
+            color: #d4a373;
+        }
+
+        .anjok {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background-color: #5d4037;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            top: -13px;
+        }
+        .dark .anjok {
+            background-color: #8d6e63;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #6b4d36;
+            cursor: help;
+        }
+        .dark .tooltip {
+            border-bottom-color: #d4a373;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 280px;
+            background-color: #332b24;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -140px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+        .dark .tooltip .tooltiptext {
+            background-color: #1a1512;
+            border: 1px solid #4a3f35;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-[#fcf9f2] text-[#332b24] dark:bg-[#1a1512] dark:text-[#ede0d4]">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 dark:bg-black/60 backdrop-blur-md border-b border-orange-100 dark:border-orange-900/30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold text-orange-800 dark:text-orange-400">가야금 교실</div>
+            <div class="flex items-center space-x-6 md:space-x-8">
+                <div class="hidden md:flex space-x-8 font-medium">
+                    <a href="#history" class="hover:text-orange-600 dark:hover:text-orange-300 transition">유래와 역사</a>
+                    <a href="#structure" class="hover:text-orange-600 dark:hover:text-orange-300 transition">구조 설명</a>
+                    <a href="#play" class="hover:text-orange-600 dark:hover:text-orange-300 transition font-bold text-orange-700 dark:text-orange-400">연주하기</a>
+                </div>
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="p-2 rounded-full bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-300 hover:scale-110 transition">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-bg h-[60vh] flex items-center justify-center text-center text-white px-4">
+        <div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">가야금: 열두 줄의 노래</h1>
+            <p class="text-xl md:text-2xl font-light">가야의 역사에서 현대의 선율까지, 전통의 소리를 체험해 보세요.</p>
+            <a href="#play" class="mt-8 inline-block bg-orange-700 hover:bg-orange-800 text-white px-8 py-3 rounded-full text-lg font-bold transition">지금 연주 시작하기</a>
+        </div>
+    </header>
+
+    <!-- Section 1: History -->
+    <section id="history" class="py-20 max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-orange-900 dark:text-orange-400 mb-4">가야금의 유래</h2>
+            <div class="w-20 h-1 bg-orange-700 mx-auto"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white dark:bg-[#2a241e] p-8 rounded-2xl shadow-sm border border-orange-50 dark:border-orange-900/20 card-hover">
+                <div class="text-orange-700 dark:text-orange-400 text-4xl mb-4"><i class="fa-solid fa-crown"></i></div>
+                <h3 class="text-xl font-bold mb-3">가실왕의 의지</h3>
+                <p class="text-gray-600 dark:text-stone-400 leading-relaxed">6세기 가야국의 가실왕은 여러 나라의 방언이 다르듯, 음악도 하나일 수 없다고 생각하여 가야금을 만들었습니다. 이는 가야 연맹의 결속을 다지려는 정치적 의미도 담겨 있었습니다.</p>
+            </div>
+            <div class="bg-white dark:bg-[#2a241e] p-8 rounded-2xl shadow-sm border border-orange-50 dark:border-orange-900/20 card-hover">
+                <div class="text-orange-700 dark:text-orange-400 text-4xl mb-4"><i class="fa-solid fa-music"></i></div>
+                <h3 class="text-xl font-bold mb-3">악사 우륵</h3>
+                <p class="text-gray-600 dark:text-stone-400 leading-relaxed">성열현 사람 우륵은 왕의 명을 받아 12달을 상징하는 
+                    <span class="tooltip text-orange-800 dark:text-orange-300 font-semibold underline decoration-dotted">12곡의 노래
+                        <span class="tooltiptext">
+                            우륵의 12곡은 당시 가야 연맹체에 속했던 여러 지역의 이름을 딴 음악입니다.<br><br>
+                            하가라도, 상가라도, 보기, 달이, 사물, 물혜, 하물혜, 사자타, 거열, 사팔혜, 이사, 상기물 등 12개 지역의 민속 선율을 정리한 것으로 알려져 있습니다.
+                        </span>
+                    </span>
+                    를 작곡하여 각 지역의 향토적인 소리를 가야금 선율로 완성했습니다.
+                </p>
+            </div>
+            <div class="bg-white dark:bg-[#2a241e] p-8 rounded-2xl shadow-sm border border-orange-50 dark:border-orange-900/20 card-hover">
+                <div class="text-orange-700 dark:text-orange-400 text-4xl mb-4"><i class="fa-solid fa-map-location-dot"></i></div>
+                <h3 class="text-xl font-bold mb-3">신라로의 전파</h3>
+                <p class="text-gray-600 dark:text-stone-400 leading-relaxed">가야가 혼란에 빠지자 우륵은 제자 이문과 함께 신라로 망명했습니다. 신라 진흥왕은 국악으로 삼았으며, 이후 가야금은 신라의 대표적인 악기로 자리 잡았습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Structure -->
+    <section id="structure" class="py-20 bg-orange-50 dark:bg-[#221c17]">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold text-orange-900 dark:text-orange-400 mb-6">가야금의 구조</h2>
+                    <ul class="space-y-4 text-gray-700 dark:text-stone-300">
+                        <li class="flex items-start gap-3">
+                            <span class="bg-orange-700 text-white w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">1</span>
+                            <div><strong>용두 (龍頭):</strong> 용의 머리 모양을 본뜬 악기의 윗부분입니다.</div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-orange-700 text-white w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">2</span>
+                            <div><strong>안족 (雁足):</strong> 줄을 받쳐주는 지지대로, 기러기 발 모양을 닮아 이름 붙여졌습니다.</div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-orange-700 text-white w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">3</span>
+                            <div><strong>현 (絃):</strong> 명주실을 꼬아 만든 12개의 줄로, 각각 다른 소리를 냅니다.</div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-orange-700 text-white w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">4</span>
+                            <div><strong>봉미 (鳳尾):</strong> 봉황의 꼬리 모양을 본뜬 아래쪽 부분입니다.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:w-1/2 bg-white dark:bg-[#2a241e] p-8 rounded-3xl shadow-xl flex justify-center items-center">
+                    <div class="relative w-full h-64 bg-stone-100 dark:bg-stone-900 rounded-lg flex items-center justify-center overflow-hidden border-2 border-stone-200 dark:border-stone-800">
+                        <span class="text-stone-400 dark:text-stone-600 italic text-center">[가야금 상세 구조 이미지]<br><small>(용두, 안족, 봉미의 위치)</small></span>
+                        <div class="absolute top-4 left-4 bg-orange-700 text-white px-2 py-1 text-xs rounded">용두</div>
+                        <div class="absolute bottom-4 right-4 bg-orange-700 text-white px-2 py-1 text-xs rounded">봉미</div>
+                        <div class="absolute top-1/2 left-1/4 w-4 h-4 bg-orange-900 rotate-45"></div>
+                        <div class="absolute top-1/2 left-1/4 mt-6 text-xs text-orange-900 dark:text-orange-300 font-bold">안족</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Interaction Play -->
+    <section id="play" class="py-20 max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-orange-900 dark:text-orange-400 mb-4">가야금 직접 연주하기</h2>
+            <p class="text-gray-600 dark:text-stone-400">줄을 마우스로 클릭하거나 숫자 키패드(1~8)를 눌러 연주해 보세요!</p>
+        </div>
+
+        <div class="bg-[#3d2b1f] dark:bg-[#2d1e15] p-8 md:p-16 rounded-[40px] shadow-2xl relative overflow-hidden border border-orange-900/30">
+            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 20% 50%, #fff, transparent);"></div>
+            
+            <div class="flex flex-col space-y-8 relative z-10">
+                <div class="string-container relative pl-12 pr-4 space-y-10">
+                    <div class="gayageum-string" data-note="261.63" data-key="1"><span class="string-label">청(1)</span><div class="anjok" style="left: 20%;"></div></div>
+                    <div class="gayageum-string" data-note="293.66" data-key="2"><span class="string-label">흥(2)</span><div class="anjok" style="left: 30%;"></div></div>
+                    <div class="gayageum-string" data-note="329.63" data-key="3"><span class="string-label">둥(3)</span><div class="anjok" style="left: 25%;"></div></div>
+                    <div class="gayageum-string" data-note="349.23" data-key="4"><span class="string-label">당(4)</span><div class="anjok" style="left: 40%;"></div></div>
+                    <div class="gayageum-string" data-note="392.00" data-key="5"><span class="string-label">동(5)</span><div class="anjok" style="left: 35%;"></div></div>
+                    <div class="gayageum-string" data-note="440.00" data-key="6"><span class="string-label">징(6)</span><div class="anjok" style="left: 50%;"></div></div>
+                    <div class="gayageum-string" data-note="493.88" data-key="7"><span class="string-label">땅(7)</span><div class="anjok" style="left: 45%;"></div></div>
+                    <div class="gayageum-string" data-note="523.25" data-key="8"><span class="string-label">지(8)</span><div class="anjok" style="left: 60%;"></div></div>
+                </div>
+            </div>
+
+            <div class="mt-16 flex justify-center gap-4">
+                <button onclick="playScale()" class="bg-orange-100 dark:bg-orange-900/60 hover:bg-orange-200 dark:hover:bg-orange-900 text-orange-900 dark:text-orange-100 px-6 py-2 rounded-lg font-bold transition">자동 음계 시연</button>
+            </div>
+        </div>
+
+        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div class="bg-white dark:bg-[#2a241e] p-4 rounded-xl shadow-sm border border-stone-100 dark:border-stone-800">
+                <span class="block text-2xl mb-2">👋</span>
+                <p class="text-sm font-bold dark:text-orange-200">뜯기</p>
+                <p class="text-xs text-stone-500 dark:text-stone-500">집게손가락으로 뜯기</p>
+            </div>
+            <div class="bg-white dark:bg-[#2a241e] p-4 rounded-xl shadow-sm border border-stone-100 dark:border-stone-800">
+                <span class="block text-2xl mb-2">🤏</span>
+                <p class="text-sm font-bold dark:text-orange-200">튕기기</p>
+                <p class="text-xs text-stone-500 dark:text-stone-500">엄지로 중지를 밀어 튕기기</p>
+            </div>
+            <div class="bg-white dark:bg-[#2a241e] p-4 rounded-xl shadow-sm border border-stone-100 dark:border-stone-800">
+                <span class="block text-2xl mb-2">🤚</span>
+                <p class="text-sm font-bold dark:text-orange-200">농현</p>
+                <p class="text-xs text-stone-500 dark:text-stone-500">왼손으로 줄을 눌러 떨기</p>
+            </div>
+            <div class="bg-white dark:bg-[#2a241e] p-4 rounded-xl shadow-sm border border-stone-100 dark:border-stone-800">
+                <span class="block text-2xl mb-2">✨</span>
+                <p class="text-sm font-bold dark:text-orange-200">연튀기</p>
+                <p class="text-xs text-stone-500 dark:text-stone-500">빠르게 여러 번 튕기기</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 dark:bg-black text-stone-400 py-12 px-4 text-center">
+        <p class="mb-4">본 자료는 음악 수업 교육용으로 제작되었습니다.</p>
+        <p class="text-sm">© 2024 음악 선생님의 가야금 교실</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        // Check for saved theme
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Audio Logic
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playNote(frequency, element) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'triangle';
+            oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+
+            gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 1.2);
+
+            if (element) {
+                element.classList.add('string-vibrate');
+                setTimeout(() => element.classList.remove('string-vibrate'), 200);
+            }
+        }
+
+        document.querySelectorAll('.gayageum-string').forEach(string => {
+            string.addEventListener('mousedown', () => {
+                const note = parseFloat(string.getAttribute('data-note'));
+                playNote(note, string);
+            });
+        });
+
+        window.addEventListener('keydown', (e) => {
+            const string = document.querySelector(`.gayageum-string[data-key="${e.key}"]`);
+            if (string) {
+                const note = parseFloat(string.getAttribute('data-note'));
+                playNote(note, string);
+            }
+        });
+
+        async function playScale() {
+            const strings = Array.from(document.querySelectorAll('.gayageum-string'));
+            for (let string of strings) {
+                const note = parseFloat(string.getAttribute('data-note'));
+                playNote(note, string);
+                await new Promise(r => setTimeout(r, 400));
+            }
+        }
+    </script>
+
+</body>
+</html>
